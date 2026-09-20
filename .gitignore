@@ -1,0 +1,23 @@
+# Raw patient data (Stormont Vail Health) — NEVER commit.
+# Provided under a competition data-use agreement; not our data to redistribute.
+2026-ASA-DataFest-Data-Files/
+2026-ASA-DataFest-Data-Files.zip
+cached_data.pkl
+*.csv
+!Variable Definitions.csv
+!Social Determinant Questions and Domains.csv
+
+# Draft / superseded notebooks (kept locally, not published — see README)
+drafts/
+
+# Assets working copy
+assets/*.zip
+
+# OS / editor / cache
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+__pycache__/
+.ipynb_checkpoints/
+plots_story.zip
