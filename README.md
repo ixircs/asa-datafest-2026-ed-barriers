@@ -10,8 +10,13 @@ Ryan Christopher Setiawan, Vinson Nicholas Sorensen.
 
 ## Key findings
 
-- Patients with **any social barrier** had an ED visit in **40.1%** of journeys, vs. **8.4%**
-  for no-barrier patients — roughly **5× higher**.
+- Disease journeys of patients reporting **any social barrier** contained an ED visit **40.1%**
+  of the time, vs. **8.4%** for no-barrier journeys — roughly **5× higher**. Barrier journeys:
+  n = 4,709 (transport only 1,158, financial only 2,172, both 1,379).
+  This is an **association, not a causal estimate** — barrier and non-barrier patients also differ
+  in age, health status and income, any of which independently raises ED use. No significance test
+  was run; a chi-square or two-proportion z-test is the obvious next step, and a 32-point gap at
+  this sample size would almost certainly clear it.
 - External validation against **ACS Census** vehicle-ownership data confirms the pattern
   independently: transport self-reports rise from 2.9% (well-connected neighborhoods) to
   9.8% (>15% of households lack a car) — a 3.3× increase, collected via a completely
@@ -51,9 +56,20 @@ submitted to the competition) and the poster deck
 
 ## Data
 
-Built on 7 datasets provided by Stormont Vail Health and DataFest organizers (encounters,
-patients, diagnosis, departments, providers, social determinants survey, US Census block data),
-~1,946 rows of patient/encounter data spanning Jan 2022–Dec 2025.
+Built on 7 datasets provided by Stormont Vail Health and DataFest organizers, plus ACS Census
+extracts — about **14.4 million rows** in total, spanning Jan 2022 – Dec 2025:
+
+| Table | Rows |
+|---|---|
+| `encounters` | 7,675,801 |
+| `social_determinants` | 3,977,901 |
+| `diagnosis` | 1,531,262 |
+| `patients` | 947,685 |
+| `providers` | 299,075 |
+| `departments` | 11,597 |
+| `tigercensuscodes` | 2,463 |
+
+Encounters by year: 1.63M (2022), 1.81M (2023), 2.08M (2024), 2.16M (2025).
 
 **Raw data is not included in this repo.** It contains real (if aggregated/de-identified)
 hospital patient records provided under the competition's data-use agreement and isn't ours to
@@ -66,7 +82,10 @@ access to the original dataset separately.
 1. **Barrier classification** — patients grouped into No Barrier / Financial Only / Transport
    Only / Both Barriers from actual SVH survey responses (not just "was asked" — corrected from
    an earlier, looser definition during the analysis).
-2. **ED rate comparison** — mean per-patient ED visit rate by barrier group, stratified.
+2. **ED comparison** — the unit of analysis is a *disease journey*: one
+   `(PatientDurableKey, DiagnosisValue)` pair, i.e. one patient's encounters for one diagnosis.
+   The measure is the **share of journeys that contain at least one ED visit**, compared across
+   barrier groups — not a per-patient visit rate.
 3. **External validation** — cross-checked against ACS 5-Year Census data (vehicle ownership by
    block group) collected independently of SVH, to confirm the barrier effect isn't an artifact
    of who happened to be surveyed.
